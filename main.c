@@ -1,16 +1,19 @@
-#include <stdio.h>
-#include "SDL.h"
+
+#include "main.h"
 int main(int argc, char *argv[]) {
-    SDL_Window *window = NULL;
-    SDL_Renderer *renderer = NULL;
-    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);              
-    window = SDL_CreateWindow("Game Window",
-                              SDL_WINDOWPOS_UNDEFINED,
-                              SDL_WINDOWPOS_UNDEFINED,
-                              1280,
-                              640,
-                              0
-    );
-    SDL_Delay(2000);
-    SDL_Quit();
+    unsigned int frameLimit = SDL_GetTicks() + 16;
+    GameState gameState;
+    initSDL(&gameState);
+    setLevelBackground(&gameState);
+    loadAllSprites(&gameState);
+    initPlayer();
+    while (1)
+    {
+        getInput();
+        doPlayer();
+        draw(&gameState);
+        delay(frameLimit);
+        frameLimit = SDL_GetTicks() + 16;
+    }
+    return 0;
 }
