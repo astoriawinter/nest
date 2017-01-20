@@ -3,7 +3,7 @@
 //
 
 #include "player.h"
-extern void drawImage(SDL_Texture *, int, int,  GameState*);
+extern void drawImage(SDL_Texture *, int, int);
 extern SDL_Texture *getSprite(int);
 void initPlayer()
 {
@@ -11,6 +11,7 @@ void initPlayer()
 	player.x = SCREEN_WIDTH / 2;
 	player.y = SCREEN_HEIGHT / 2;
     SDL_QueryTexture(player.sprite, NULL, NULL, &player.w, &player.h);
+	player.w/=8;
 }
 
 void doPlayer()
@@ -57,8 +58,8 @@ void doPlayer()
 	}
 }
 
-void drawPlayer(GameState* gs)
+void drawPlayer()
 {
-	drawImage(player.sprite, player.x, player.y, gs);
+	drawImage(player.sprite, player.x, player.y);
 }
 

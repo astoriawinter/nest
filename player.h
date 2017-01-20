@@ -7,4 +7,4 @@
 #endif
 void initPlayer();
 void doPlayer();
-void drawPlayer(GameState* gameState);
+void drawPlayer();

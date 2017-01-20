@@ -122,60 +122,6 @@ Nest/fast:
 	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/build
 .PHONY : Nest/fast
 
-graphics.obj: graphics.c.obj
-
-.PHONY : graphics.obj
-
-# target to build an object file
-graphics.c.obj:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/graphics.c.obj
-.PHONY : graphics.c.obj
-
-graphics.i: graphics.c.i
-
-.PHONY : graphics.i
-
-# target to preprocess a source file
-graphics.c.i:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/graphics.c.i
-.PHONY : graphics.c.i
-
-graphics.s: graphics.c.s
-
-.PHONY : graphics.s
-
-# target to generate assembly for a file
-graphics.c.s:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/graphics.c.s
-.PHONY : graphics.c.s
-
-init.obj: init.c.obj
-
-.PHONY : init.obj
-
-# target to build an object file
-init.c.obj:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/init.c.obj
-.PHONY : init.c.obj
-
-init.i: init.c.i
-
-.PHONY : init.i
-
-# target to preprocess a source file
-init.c.i:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/init.c.i
-.PHONY : init.c.i
-
-init.s: init.c.s
-
-.PHONY : init.s
-
-# target to generate assembly for a file
-init.c.s:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/init.c.s
-.PHONY : init.c.s
-
 input.obj: input.c.obj
 
 .PHONY : input.obj
@@ -230,6 +176,33 @@ main.c.s:
 	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/main.c.s
 .PHONY : main.c.s
 
+map.obj: map.c.obj
+
+.PHONY : map.obj
+
+# target to build an object file
+map.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/map.c.obj
+.PHONY : map.c.obj
+
+map.i: map.c.i
+
+.PHONY : map.i
+
+# target to preprocess a source file
+map.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/map.c.i
+.PHONY : map.c.i
+
+map.s: map.c.s
+
+.PHONY : map.s
+
+# target to generate assembly for a file
+map.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/map.c.s
+.PHONY : map.c.s
+
 player.obj: player.c.obj
 
 .PHONY : player.obj
@@ -257,32 +230,113 @@ player.c.s:
 	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/player.c.s
 .PHONY : player.c.s
 
-render.obj: render.c.obj
+tmx.obj: tmx.c.obj
 
-.PHONY : render.obj
+.PHONY : tmx.obj
 
 # target to build an object file
-render.c.obj:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/render.c.obj
-.PHONY : render.c.obj
+tmx.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx.c.obj
+.PHONY : tmx.c.obj
 
-render.i: render.c.i
+tmx.i: tmx.c.i
 
-.PHONY : render.i
+.PHONY : tmx.i
 
 # target to preprocess a source file
-render.c.i:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/render.c.i
-.PHONY : render.c.i
+tmx.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx.c.i
+.PHONY : tmx.c.i
 
-render.s: render.c.s
+tmx.s: tmx.c.s
 
-.PHONY : render.s
+.PHONY : tmx.s
 
 # target to generate assembly for a file
-render.c.s:
-	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/render.c.s
-.PHONY : render.c.s
+tmx.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx.c.s
+.PHONY : tmx.c.s
+
+tmx_err.obj: tmx_err.c.obj
+
+.PHONY : tmx_err.obj
+
+# target to build an object file
+tmx_err.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_err.c.obj
+.PHONY : tmx_err.c.obj
+
+tmx_err.i: tmx_err.c.i
+
+.PHONY : tmx_err.i
+
+# target to preprocess a source file
+tmx_err.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_err.c.i
+.PHONY : tmx_err.c.i
+
+tmx_err.s: tmx_err.c.s
+
+.PHONY : tmx_err.s
+
+# target to generate assembly for a file
+tmx_err.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_err.c.s
+.PHONY : tmx_err.c.s
+
+tmx_utils.obj: tmx_utils.c.obj
+
+.PHONY : tmx_utils.obj
+
+# target to build an object file
+tmx_utils.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_utils.c.obj
+.PHONY : tmx_utils.c.obj
+
+tmx_utils.i: tmx_utils.c.i
+
+.PHONY : tmx_utils.i
+
+# target to preprocess a source file
+tmx_utils.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_utils.c.i
+.PHONY : tmx_utils.c.i
+
+tmx_utils.s: tmx_utils.c.s
+
+.PHONY : tmx_utils.s
+
+# target to generate assembly for a file
+tmx_utils.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_utils.c.s
+.PHONY : tmx_utils.c.s
+
+tmx_xml.obj: tmx_xml.c.obj
+
+.PHONY : tmx_xml.obj
+
+# target to build an object file
+tmx_xml.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_xml.c.obj
+.PHONY : tmx_xml.c.obj
+
+tmx_xml.i: tmx_xml.c.i
+
+.PHONY : tmx_xml.i
+
+# target to preprocess a source file
+tmx_xml.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_xml.c.i
+.PHONY : tmx_xml.c.i
+
+tmx_xml.s: tmx_xml.c.s
+
+.PHONY : tmx_xml.s
+
+# target to generate assembly for a file
+tmx_xml.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/tmx_xml.c.s
+.PHONY : tmx_xml.c.s
 
 # Help Target
 help:
@@ -293,24 +347,30 @@ help:
 	@echo ... Nest
 	@echo ... edit_cache
 	@echo ... rebuild_cache
-	@echo ... graphics.obj
-	@echo ... graphics.i
-	@echo ... graphics.s
-	@echo ... init.obj
-	@echo ... init.i
-	@echo ... init.s
 	@echo ... input.obj
 	@echo ... input.i
 	@echo ... input.s
 	@echo ... main.obj
 	@echo ... main.i
 	@echo ... main.s
+	@echo ... map.obj
+	@echo ... map.i
+	@echo ... map.s
 	@echo ... player.obj
 	@echo ... player.i
 	@echo ... player.s
-	@echo ... render.obj
-	@echo ... render.i
-	@echo ... render.s
+	@echo ... tmx.obj
+	@echo ... tmx.i
+	@echo ... tmx.s
+	@echo ... tmx_err.obj
+	@echo ... tmx_err.i
+	@echo ... tmx_err.s
+	@echo ... tmx_utils.obj
+	@echo ... tmx_utils.i
+	@echo ... tmx_utils.s
+	@echo ... tmx_xml.obj
+	@echo ... tmx_xml.i
+	@echo ... tmx_xml.s
 .PHONY : help
 
 
