@@ -4,12 +4,7 @@
 #ifndef NEST_STRUCTS_H
 #define NEST_STRUCTS_H
 #include "SDL.h"
-typedef struct GameState {
-    SDL_Renderer *renderer;
-    SDL_Window *window;
-    SDL_Texture *sheetTexture;
-    SDL_Texture *backgroundTexture;
-}GameState;
+#include "tmx.h"
 
 typedef struct Sprites
 {
@@ -27,14 +22,20 @@ typedef struct Control
 {
     int up, down, left, right;
 } Control;
+typedef struct Map
+{
+    SDL_Texture *map_bmp;
+    tmx_map *map_m;
+    SDL_Rect *map_rect;
+}Map;
 enum
 {
     PLAYER_SPRITE,
     MAX_SPRITES
 };
 Control input;
-Entity player;
-Sprites sprite[MAX_SPRITES];
+Entity* player;
+Map* m;
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 640
 #endif

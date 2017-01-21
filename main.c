@@ -2,11 +2,12 @@
 #include "main.h"
 int main(int argc, char *argv[]) {
     unsigned int frameLimit = SDL_GetTicks() + 16;
-    initPlayer();
-    drawPlayer();
-    map("files/map/map.tmx");
+    player = malloc(sizeof(Entity));
+    m = malloc(sizeof(Map));
+    init();
+    initPlayer(player);
+    gameLoop("files/map/map.tmx", player, m);
         while (1) {
-            getInput();
             doPlayer();
         }
     return 0;

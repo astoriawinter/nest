@@ -11,6 +11,7 @@
 #include <SDL_keyboard.h>
 #include <SDL_keycode.h>
 #include <SDL_image.h>
+#include "player.h"
 #define fatal_error(str)  { fputs(str, stderr); goto errquit; }
 #define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 #define DISPLAY_H 680
@@ -22,13 +23,7 @@
 
 
 SDL_Texture *loadImage(char *name);
-void setLevelBackground();
-void drawImage(SDL_Texture *image, int x, int y);
 void loadSprite(int index, char *name);
-SDL_Texture *getSprite(int index);
-void freeSprites();
-void loadAllSprites();
-
 void set_color(int color);
 void* sdl_img_loader(const char *path);
 void draw_polyline(double **points, double x, double y, int pointsc);
@@ -39,4 +34,9 @@ void draw_layer(tmx_map *map, tmx_layer *layer);
 void draw_image_layer(tmx_image *img) ;
 SDL_Texture* render_map(tmx_map *map);
 int map(char* string);
+void init();
+void gameLoop(char* string, Entity* player, Map* m);
+void render(Entity* player, Map* m);
+void drawMap(Map* m);
+void drawImage(Entity* player);
 

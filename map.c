@@ -1,16 +1,16 @@
 
 #include <stdio.h>
 #include "map.h"
-
-#define fatal_error(str)  { fputs(str, stderr); goto errquit; }
+#include "input.h"
 #define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 
 
 static SDL_Renderer *ren = NULL;
-
+static SDL_Window *win = NULL;
 SDL_Texture *loadImage(char *name)
 {
     IMG_Init(IMG_INIT_JPG);
+    IMG_Init(IMG_INIT_PNG);
     SDL_Surface * temp = IMG_Load(name);
     SDL_Texture * image;
     image = SDL_CreateTextureFromSurface(ren, temp);
@@ -18,66 +18,6 @@ SDL_Texture *loadImage(char *name)
     return image;
 }
 
-void drawImage(SDL_Texture *image, int x, int y)
-{
-    Uint32 ticks = SDL_GetTicks();
-    Uint32 sprite = (ticks / 300) % 8;
-    SDL_Rect dest;
-    dest.x = x;
-    dest.y = y;
-    SDL_QueryTexture(image, NULL, NULL, &dest.w, &dest.h);
-    int w = dest.w/8;
-    SDL_Rect srcRect_ledges = {sprite*w , 0, w, dest.h};
-    SDL_Rect Rect_ledges = { x, y, w, dest.h};
-    SDL_RenderCopy(ren, image,  & srcRect_ledges, & Rect_ledges);
-}
-
-void loadSprite(int index, char *name)
-{
-    if (index >= MAX_SPRITES || index < 0)
-    {
-        printf("Invalid index for sprite! Index: %d Maximum: %d\n", index, MAX_SPRITES);
-
-        exit(1);
-    }
-
-    sprite[index].image = loadImage(name);
-
-    if (sprite[index].image == NULL)
-    {
-        exit(1);
-    }
-}
-
-SDL_Texture *getSprite(int index)
-{
-    if (index >= MAX_SPRITES || index < 0)
-    {
-        printf("Invalid index for sprite! Index: %d Maximum: %d\n", index, MAX_SPRITES);
-
-        exit(1);
-    }
-
-    return sprite[index].image;
-}
-
-void freeSprites()
-{
-    int i;
-
-    for (i=0;i<MAX_SPRITES;i++)
-    {
-        if (sprite[i].image != NULL)
-        {
-            SDL_DestroyTexture(sprite[i].image);
-        }
-    }
-}
-
-void loadAllSprites()
-{
-    loadSprite(PLAYER_SPRITE, "files/images/wizard_right.png");
-}
 
 void set_color(int color) {
     unsigned char r, g, b;
@@ -224,100 +164,85 @@ Uint32 timer_func(Uint32 interval, void *param) {
     SDL_PushEvent(&event);
     return(interval);
 }
+void init()
+{
+    SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
 
-int map(char* string) {
-    tmx_map *map = NULL;
-    SDL_Window *win;
-    SDL_Event e;
-    SDL_Texture *map_bmp;
-    SDL_Rect map_rect;
-    SDL_TimerID timer_id;
-    int x_delta, y_delta;
-    int key_state[2] = {0, 0};
-
-    if (!(win = SDL_CreateWindow("SDL Game", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, DISPLAY_W, DISPLAY_H, SDL_WINDOW_SHOWN)))
-    fatal_error(SDL_GetError());
-
-    if (!(ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC)))
-    fatal_error(SDL_GetError());
-
-    SDL_EventState(SDL_MOUSEMOTION, SDL_DISABLE);
-
-    tmx_img_load_func = (void* (*)(const char*))sdl_img_loader;
-    tmx_img_free_func = (void  (*)(void*))      SDL_DestroyTexture;
-
-    if (!(map = tmx_load(string))) fatal_error(tmx_strerr());
-
-    map_rect.w = map->width  * map->tile_width;
-    map_rect.h = map->height * map->tile_height;
-    map_rect.x = 0;  map_rect.y = 0;
-
-    x_delta = DISPLAY_W - map_rect.w;
-    y_delta = DISPLAY_H - map_rect.h;
-
-    if (!(map_bmp = render_map(map)))
-    fatal_error(SDL_GetError());
-
-    timer_id = SDL_AddTimer(30, timer_func, NULL);
-
-    while (SDL_WaitEvent(&e)){
-
-        if (e.type == SDL_QUIT) break;
-
-        else if (e.type == SDL_KEYUP) {
-            switch (e.key.keysym.scancode) {
-                case SDL_SCANCODE_LEFT:
-                case SDL_SCANCODE_RIGHT: key_state[0] = 0; break;
-                case SDL_SCANCODE_UP:
-                case SDL_SCANCODE_DOWN:  key_state[1] = 0; break;
-            }
-        }
-
-        else if (e.type == SDL_KEYDOWN) {
-
-            if (e.key.keysym.scancode == SDL_SCANCODE_Q) break;
-            switch (e.key.keysym.scancode) {
-                case SDL_SCANCODE_LEFT:  key_state[0] =  4; break;
-                case SDL_SCANCODE_RIGHT: key_state[0] = -4; break;
-                case SDL_SCANCODE_UP:    key_state[1] =  4; break;
-                case SDL_SCANCODE_DOWN:  key_state[1] = -4; break;
-            }
-        }
-
-        else if (e.type == SDL_USEREVENT) {
-
-            map_rect.x += key_state[0];
-            map_rect.y += key_state[1];
-            if (x_delta > 0) {
-                map_rect.x = x_delta/2;
-            } else {
-                if (map_rect.x < x_delta) map_rect.x = x_delta;
-                if (map_rect.x > 0) map_rect.x = 0;
-            }
-            if (y_delta > 0) {
-                map_rect.y = y_delta/2;
-            } else {
-                if (map_rect.y < y_delta) map_rect.y = y_delta;
-                if (map_rect.y > 0) map_rect.y = 0;
-            }
-
-            SDL_RenderClear(ren);
-            SDL_RenderCopy(ren, map_bmp, NULL, &map_rect);
-            SDL_RenderPresent(ren);
-        }
-    }
-
-    tmx_map_free(map);
+    win = SDL_CreateWindow("Game Window",
+                              SDL_WINDOWPOS_UNDEFINED,
+                              SDL_WINDOWPOS_UNDEFINED,
+                              DISPLAY_W,
+                              DISPLAY_H,
+                              0
+    );
+    ren = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+}
+void clear(SDL_TimerID timer_id, Map* m)
+{
+    tmx_map_free(m->map_m);
     SDL_RemoveTimer(timer_id);
-    SDL_DestroyTexture(map_bmp);
+    SDL_DestroyTexture(m->map_bmp);
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(win);
     SDL_Quit();
-
+}
+void map_load(char * string, Map* m)
+{
+    tmx_img_load_func = (void* (*)(const char*))sdl_img_loader;
+    tmx_img_free_func = (void  (*)(void*))      SDL_DestroyTexture;
+    m->map_m = tmx_load(string);
+}
+void map_render(Map* m)
+{
+    m->map_bmp = render_map(m->map_m);
+}
+void drawMap(Map* m){
+    SDL_RenderCopy(ren, m->map_bmp, NULL, m->map_rect);
+}
+void render(Entity* player, Map* m)
+{
+    SDL_RenderClear(ren);
+    drawMap(m);
+    drawImage(player);
+}
+void drawImage(Entity* player)
+{
+    Uint32 ticks = SDL_GetTicks();
+    Uint32 sprite = (ticks / 300) % 8;
+    SDL_Rect dest;
+    dest.x = player->x;
+    dest.y = player->y;
+    SDL_QueryTexture(player->sprite, NULL, NULL, &dest.w, &dest.h);
+    int w = dest.w/8;
+    SDL_Rect srcRect_ledges = {sprite*w , 0, w, dest.h};
+    SDL_Rect Rect_ledges = { player->x, player->y, w, dest.h};
+    SDL_RenderCopy(ren, player->sprite, &srcRect_ledges, &Rect_ledges);
+}
+void gameLoop(char* string, Entity* player, Map* m){
+    SDL_Event event;
+    int x_delta, y_delta;
+    int key_state[2] = {0, 0};
+    SDL_TimerID timer_id;
+    map(string);
+    m->map_rect = malloc(sizeof(SDL_Rect));
+    m->map_rect->w = m->map_m->width  * m->map_m->tile_width;
+    m->map_rect->h = m->map_m->height * m->map_m->tile_height;
+    m->map_rect->x = 0;  m->map_rect->y = 0;
+    x_delta = DISPLAY_W - m->map_rect->w;
+    y_delta = DISPLAY_H - m->map_rect->h;
+    map_render(m);
+    int quit = 0;
+    while (!(quit))
+    {
+        render(player, m);
+        SDL_RenderPresent(ren);
+        quit = getInput(quit);
+        doPlayer();
+    }
+    clear(timer_id, m);
+}
+int map(char* string) {
+    map_load(string, m);
     return 0;
-
-    errquit:
-    SDL_Quit();
-    return -1;
 }
 
