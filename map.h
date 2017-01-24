@@ -25,6 +25,7 @@ SDL_Texture *loadImage(char *name);
 void loadSprite(int index, char *name);
 void set_color(int color);
 void* sdl_img_loader(const char *path);
+void redraw_tile(tmx_map *map, unsigned int x, unsigned int y);
 void draw_polyline(double **points, double x, double y, int pointsc);
 void draw_polygon(double **points, double x, double y, int pointsc);
 void draw_objects(tmx_object_group *objgr, Map* m);

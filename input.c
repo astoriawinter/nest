@@ -77,4 +77,3 @@ int getInput()
 		frameLimit = SDL_GetTicks() + 16;
 	return 0;
 }
-

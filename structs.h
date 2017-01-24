@@ -14,8 +14,10 @@ typedef struct Sprites
 typedef struct Entity
 {
     float x, y, dirX, dirY;
-    int w, h, onGround, wait;
-    SDL_Texture *sprite;
+    int w, h, onGround, thinkTime, onLadder, collectedCoins;
+    SDL_Texture *sprite_l;
+    SDL_Texture *sprite_r;
+    SDL_Texture *sprite_f;
 } Entity;
 
 typedef struct Control
@@ -28,6 +30,8 @@ typedef struct Map
     tmx_map *map_m;
     SDL_Rect *map_rect;
     tmx_layer *map_col;
+    tmx_layer *map_lad;
+    tmx_layer *map_obj;
 }Map;
 enum
 {

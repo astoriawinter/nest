@@ -10,6 +10,29 @@ void checkToMap(Entity *player, Map* m)
 	int i, x1, x2, y1, y2;
 	unsigned int gid, gid_2;
 	player->onGround = 0;
+    /* ladders collision */
+    x1 = (player->x + player->dirX + player->w/2) / TILE_SIZE;
+    y2 = (player->y + player->dirY + player->h/2) / TILE_SIZE;
+    gid = gid_clear_flags(m->map_lad->content.gids[(y2 * m->map_m->width) + x1]);
+    if (m->map_m->tiles[gid] != NULL) {
+        player->onLadder = 1;
+    }
+    else
+    {
+        player->onLadder = 0;
+    }
+    /* coins */
+    y2 = player->y / TILE_SIZE + 2;
+    gid = gid_clear_flags(m->map_obj->content.gids[(y2 * m->map_m->width) + x1]);
+    if (m->map_m->tiles[gid] != NULL)
+    {
+        m->map_obj->content.gids[(y2 * m->map_m->width) + x1] = 0;
+
+        player->collectedCoins++;
+        redraw_tile(m->map_m, x1, y2);
+    }
+
+    /* map collision */
 	i = player->h > TILE_SIZE ? TILE_SIZE : player->h;
 	for (;;)
 	{
@@ -106,6 +129,10 @@ void checkToMap(Entity *player, Map* m)
 	{
 		player->x = 0;
 	}
+    if (player->y < 0)
+    {
+        player->y = 0;
+    }
 	else if (player->x + player->w >= m->map_m->width*TILE_SIZE)
 	{
 		player->x =  m->map_m->width*TILE_SIZE - player->w - 1;
@@ -113,6 +140,6 @@ void checkToMap(Entity *player, Map* m)
 
 	if (player->y > m->map_m->height*TILE_SIZE)
 	{
-		player->wait = 60;
+		player->thinkTime = 60;
 	}
 }

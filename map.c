@@ -71,6 +71,39 @@ unsigned int gid_clear_flags(unsigned int gid) {
     return gid & TMX_FLIP_BITS_REMOVAL;
 }
 
+void redraw_tile(tmx_map *map, unsigned int x, unsigned int y) {
+    tmx_tileset *ts;
+    tmx_image *im;
+    SDL_Rect srcrect, dstrect;
+    SDL_Texture* tileset;
+    unsigned int gid;
+    tmx_layer *layers = m->map_m->ly_head;
+    SDL_SetRenderTarget(ren, m->map_bmp);
+    while (layers) {
+        if (layers->visible && layers->type == L_LAYER) {
+            gid = gid_clear_flags(layers->content.gids[(y*map->width)+x]);
+            if (map->tiles[gid] != NULL) {
+                ts = map->tiles[gid]->tileset;
+                im = map->tiles[gid]->image;
+                srcrect.x = map->tiles[gid]->ul_x;
+                srcrect.y = map->tiles[gid]->ul_y;
+                srcrect.w = dstrect.w = ts->tile_width;
+                srcrect.h = dstrect.h = ts->tile_height;
+                dstrect.x = x*ts->tile_width;  dstrect.y = y*ts->tile_height;
+                if (im) {
+                    tileset = (SDL_Texture*)im->resource_image;
+                }
+                else {
+                    tileset = (SDL_Texture*)ts->image->resource_image;
+                }
+                SDL_RenderCopy(ren, tileset, &srcrect, &dstrect);
+            }
+        }
+        layers = layers->next;
+    }
+    SDL_SetRenderTarget(ren, NULL);
+}
+
 void draw_layer(tmx_map *map, tmx_layer *layer) {
     unsigned long i, j;
     unsigned int gid;
@@ -134,8 +167,6 @@ SDL_Texture* render_map(Map *m) {
                 draw_layer(m->map_m, layers);
             }
         }
-        if (strcmp(layers->name, "collision"))
-            m->map_col = layers;
         layers = layers->next;
     }
     SDL_SetRenderTarget(ren, NULL);
@@ -181,9 +212,21 @@ void clear(SDL_TimerID timer_id, Map* m)
 }
 void map_load(char * string, Map* m)
 {
+    tmx_layer *layers;
     tmx_img_load_func = (void* (*)(const char*))sdl_img_loader;
     tmx_img_free_func = (void  (*)(void*))      SDL_DestroyTexture;
     m->map_m = tmx_load(string);
+    layers = m->map_m->ly_head;
+    while (layers)
+    {
+        if (!(strcmp(layers->name, "collisions")))
+            m->map_col = layers;
+        if (!(strcmp(layers->name, "ladders")))
+            m->map_lad = layers;
+        if (!(strcmp(layers->name, "objects")))
+            m->map_obj = layers;
+        layers = layers->next;
+    }
 }
 void map_render(Map* m)
 {
@@ -198,18 +241,32 @@ void render(Entity* player, Map* m)
     drawMap(m);
     drawImage(player);
 }
-void drawImage(Entity* player)
-{
+void drawImage(Entity* player) {
     Uint32 ticks = SDL_GetTicks();
-    Uint32 sprite = (ticks / 300) % 8;
+    Uint32 sprite_n = (ticks / 75) % 8;
+    SDL_Texture *sprite;
     SDL_Rect dest;
     dest.x = player->x;
     dest.y = player->y;
-    SDL_QueryTexture(player->sprite, NULL, NULL, &dest.w, &dest.h);
+    if (player->dirX < 0) {
+        sprite = player->sprite_l;
+    }
+    else {
+        sprite = player->sprite_r;
+    }
+    if (player->dirX < 0.001 && player->dirX > -0.001) {
+        sprite = player->sprite_f;
+        sprite_n = 0;
+    }
+    if (player->onLadder) {
+        sprite = player->sprite_f;
+        sprite_n = (ticks / 300) % 4 + 4;
+    }
+    SDL_QueryTexture(sprite, NULL, NULL, &dest.w, &dest.h);
     int w = dest.w/8;
-    SDL_Rect srcRect_ledges = {sprite*w , 0, w, dest.h};
+    SDL_Rect srcRect_ledges = {sprite_n*w , 0, w, dest.h};
     SDL_Rect Rect_ledges = { player->x, player->y, w, dest.h};
-    SDL_RenderCopy(ren, player->sprite, &srcRect_ledges, &Rect_ledges);
+    SDL_RenderCopy(ren, sprite, &srcRect_ledges, &Rect_ledges);
 }
 void gameLoop(char* string, Entity* player, Map* m){
     SDL_Event event;
@@ -227,7 +284,7 @@ void gameLoop(char* string, Entity* player, Map* m){
     int quit = 0;
     while (!quit)
     {
-        quit = getInput();
+        quit = getInput(quit);
         doPlayer();
         render(player, m);
         SDL_RenderPresent(ren);
