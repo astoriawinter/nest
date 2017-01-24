@@ -122,6 +122,33 @@ Nest/fast:
 	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/build
 .PHONY : Nest/fast
 
+collisions.obj: collisions.c.obj
+
+.PHONY : collisions.obj
+
+# target to build an object file
+collisions.c.obj:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/collisions.c.obj
+.PHONY : collisions.c.obj
+
+collisions.i: collisions.c.i
+
+.PHONY : collisions.i
+
+# target to preprocess a source file
+collisions.c.i:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/collisions.c.i
+.PHONY : collisions.c.i
+
+collisions.s: collisions.c.s
+
+.PHONY : collisions.s
+
+# target to generate assembly for a file
+collisions.c.s:
+	$(MAKE) -f CMakeFiles\Nest.dir\build.make CMakeFiles/Nest.dir/collisions.c.s
+.PHONY : collisions.c.s
+
 input.obj: input.c.obj
 
 .PHONY : input.obj
@@ -347,6 +374,9 @@ help:
 	@echo ... Nest
 	@echo ... edit_cache
 	@echo ... rebuild_cache
+	@echo ... collisions.obj
+	@echo ... collisions.i
+	@echo ... collisions.s
 	@echo ... input.obj
 	@echo ... input.i
 	@echo ... input.s

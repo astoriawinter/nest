@@ -6,6 +6,7 @@
 #include "structs.h"
 #include "player.h"
 #include "input.h"
+#include "collisions.h"
 #include <stdio.h>
 #include "SDL.h"
 #include "map.h"

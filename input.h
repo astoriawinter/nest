@@ -6,4 +6,4 @@
 #define NEST_INPUT_H
 #include "structs.h"
 #endif
-int getInput(int quit);
+int getInput();

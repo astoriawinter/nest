@@ -3,57 +3,59 @@
 //
 
 #include "player.h"
+#include "collisions.h"
 extern SDL_Texture *loadImage(char *name);
 void initPlayer(Entity* player)
 {
     player->sprite = loadImage("files/images/wizard_right.png");
-	player->x = SCREEN_WIDTH / 2;
-	player->y = SCREEN_HEIGHT / 2;
+    player->x = (300);
+    player->y = (100);
+    player->dirX = player->dirY = 0;
+    player->wait = 0;
     SDL_QueryTexture(player->sprite, NULL, NULL, &player->w, &player->h);
 	player->w/=8;
 }
 
 void doPlayer()
 {
-	if (input.up == 1)
-	{
-		player->y -= 3;
+    if (player->wait == 0)
+    {
+        player->dirX = 0;
+        player->dirY += GRAVITY_SPEED;
 
-		if (player->y < 0)
-		{
-			player->y = 0;
-		}
-	}
+        if (player->dirY >= MAX_FALL_SPEED)
+        {
+            player->dirY = MAX_FALL_SPEED;
+        }
 
-	if (input.down == 1)
-	{
-		player->y += 3;
+        if (input.left == 1)
+        {
+            player->dirX -= PLAYER_SPEED;
+        }
 
+        else if (input.right == 1)
+        {
+            player->dirX += PLAYER_SPEED;
+        }
 
-		if (player->y + player->h >= SCREEN_HEIGHT)
-		{
-			player->y = SCREEN_HEIGHT - (player->h + 1);
-		}
-	}
+        if (input.jump == 1)
+        {
+            if (player->onGround == 1)
+            {
+                player->dirY = -15;
+            }
+            input.jump = 0;
+        }
+        checkToMap(player, m);
+    }
 
-	if (input.left == 1)
-	{
-		player->x -= 3;
+    if (player->wait > 0)
+    {
+        player->wait--;
 
-		if (player->x < 0)
-		{
-			player->x = 0;
-		}
-	}
-
-	if (input.right == 1)
-	{
-		player->x += 3;
-
-		if (player->x + player->w >= SCREEN_WIDTH)
-		{
-			player->x = SCREEN_WIDTH - (player->w + 1);
-		}
-	}
+        if (player->wait == 0)
+        {
+            initPlayer(player);
+        }
+    }
 }
-

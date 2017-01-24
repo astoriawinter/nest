@@ -13,20 +13,21 @@ typedef struct Sprites
 
 typedef struct Entity
 {
-    int x, y;
-    int w, h;
+    float x, y, dirX, dirY;
+    int w, h, onGround, wait;
     SDL_Texture *sprite;
 } Entity;
 
 typedef struct Control
 {
-    int up, down, left, right;
+    int up, down, left, right, jump;
 } Control;
 typedef struct Map
 {
     SDL_Texture *map_bmp;
     tmx_map *map_m;
     SDL_Rect *map_rect;
+    tmx_layer *map_col;
 }Map;
 enum
 {
@@ -36,6 +37,11 @@ enum
 Control input;
 Entity* player;
 Map* m;
+#define TILE_SIZE 32
+#define SCROLL_SPEED 8
+#define GRAVITY_SPEED 0.8
+#define MAX_FALL_SPEED 20
+#define PLAYER_SPEED 4
 #define SCREEN_WIDTH 1280
 #define SCREEN_HEIGHT 640
 #endif

@@ -26,7 +26,7 @@ list(APPEND libs ${Nest_SOURCE_DIR}/tmx/deps/lib/libz.dll.a)
 message(${libs})
 
 FILE(GLOB CSources *.c)
-set(SOURCE_FILES ${CSources})
+set(SOURCE_FILES ${CSources} collisions.c collisions.h)
 include_directories(. ${SDL2_INCLUDE_DIR} ${SDL2_IMAGE_INCLUDE_DIR} ${SDL2_TTF_INCLUDE_DIR})
 add_executable(Nest ${SOURCE_FILES})
 target_link_libraries(Nest ${SDL2_LIBRARY} ${SDL2_IMAGE_LIBRARIES} ${libs})

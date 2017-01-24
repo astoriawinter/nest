@@ -12,7 +12,6 @@
 #include <SDL_keycode.h>
 #include <SDL_image.h>
 #include "player.h"
-#define fatal_error(str)  { fputs(str, stderr); goto errquit; }
 #define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 #define DISPLAY_H 680
 #define DISPLAY_W 1280
@@ -28,11 +27,11 @@ void set_color(int color);
 void* sdl_img_loader(const char *path);
 void draw_polyline(double **points, double x, double y, int pointsc);
 void draw_polygon(double **points, double x, double y, int pointsc);
-void draw_objects(tmx_object_group *objgr);
+void draw_objects(tmx_object_group *objgr, Map* m);
 unsigned int gid_clear_flags(unsigned int gid);
 void draw_layer(tmx_map *map, tmx_layer *layer);
 void draw_image_layer(tmx_image *img) ;
-SDL_Texture* render_map(tmx_map *map);
+SDL_Texture* render_map(Map *map);
 int map(char* string);
 void init();
 void gameLoop(char* string, Entity* player, Map* m);

@@ -2,8 +2,8 @@
 #include <stdio.h>
 #include "map.h"
 #include "input.h"
-#define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 
+#define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 
 static SDL_Renderer *ren = NULL;
 static SDL_Window *win = NULL;
@@ -17,7 +17,6 @@ SDL_Texture *loadImage(char *name)
     SDL_FreeSurface(temp);
     return image;
 }
-
 
 void set_color(int color) {
     unsigned char r, g, b;
@@ -47,11 +46,10 @@ void draw_polygon(double **points, double x, double y, int pointsc) {
     }
 }
 
-void draw_objects(tmx_object_group *objgr) {
+void draw_objects(tmx_object_group *objgr, Map* m) {
     SDL_Rect rect;
     set_color(objgr->color);
     tmx_object *head = objgr->head;
-    /* FIXME line thickness */
     while (head) {
         if (head->visible) {
             if (head->shape == S_SQUARE) {
@@ -62,8 +60,7 @@ void draw_objects(tmx_object_group *objgr) {
                 draw_polygon(head->points, head->x, head->y, head->points_len);
             } else if (head->shape == S_POLYLINE) {
                 draw_polyline(head->points, head->x, head->y, head->points_len);
-            } else if (head->shape == S_ELLIPSE) {
-                /* FIXME: no function in SDL2 */
+            } else if (head->shape == S_TILE) {
             }
         }
         head = head->next;
@@ -78,6 +75,7 @@ void draw_layer(tmx_map *map, tmx_layer *layer) {
     unsigned long i, j;
     unsigned int gid;
     float op;
+    unsigned int f;
     tmx_tileset *ts;
     tmx_image *im;
     SDL_Rect srcrect, dstrect;
@@ -94,7 +92,6 @@ void draw_layer(tmx_map *map, tmx_layer *layer) {
                 srcrect.w = dstrect.w = ts->tile_width;
                 srcrect.h = dstrect.h = ts->tile_height;
                 dstrect.x = j*ts->tile_width;  dstrect.y = i*ts->tile_height;
-                /* TODO Opacity and Flips */
                 if (im) {
                     tileset = (SDL_Texture*)im->resource_image;
                 }
@@ -112,39 +109,35 @@ void draw_image_layer(tmx_image *img) {
 
     dim.x = dim.y = 0;
     SDL_QueryTexture((SDL_Texture*)img->resource_image, NULL, NULL, &(dim.w), &(dim.h));
-
     SDL_RenderCopy(ren, (SDL_Texture*)img->resource_image, NULL, &dim);
 
 }
 
-SDL_Texture* render_map(tmx_map *map) {
+SDL_Texture* render_map(Map *m) {
     SDL_Texture *res;
-    tmx_layer *layers = map->ly_head;
+    tmx_layer *layers = m->map_m->ly_head;
     int w, h;
-
-    w = map->width  * map->tile_width;  /* Bitmap's width and height */
-    h = map->height * map->tile_height;
-
+    w = m->map_m->width  * m->map_m->tile_width;
+    h = m->map_m->height * m->map_m->tile_height;
     if (!(res = SDL_CreateTexture(ren, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_TARGET, w, h)))
     fatal_error2(SDL_GetError());
     SDL_SetRenderTarget(ren, res);
-
-    set_color(map->backgroundcolor);
+    set_color(m->map_m->backgroundcolor);
     SDL_RenderClear(ren);
-
     while (layers) {
         if (layers->visible) {
             if (layers->type == L_OBJGR) {
-                draw_objects(layers->content.objgr);
+                draw_objects(layers->content.objgr, m);
             } else if (layers->type == L_IMAGE) {
                 draw_image_layer(layers->content.image);
             } else if (layers->type == L_LAYER) {
-                draw_layer(map, layers);
+                draw_layer(m->map_m, layers);
             }
         }
+        if (strcmp(layers->name, "collision"))
+            m->map_col = layers;
         layers = layers->next;
     }
-
     SDL_SetRenderTarget(ren, NULL);
     return res;
 }
@@ -194,7 +187,7 @@ void map_load(char * string, Map* m)
 }
 void map_render(Map* m)
 {
-    m->map_bmp = render_map(m->map_m);
+    m->map_bmp = render_map(m);
 }
 void drawMap(Map* m){
     SDL_RenderCopy(ren, m->map_bmp, NULL, m->map_rect);
@@ -232,12 +225,12 @@ void gameLoop(char* string, Entity* player, Map* m){
     y_delta = DISPLAY_H - m->map_rect->h;
     map_render(m);
     int quit = 0;
-    while (!(quit))
+    while (!quit)
     {
+        quit = getInput();
+        doPlayer();
         render(player, m);
         SDL_RenderPresent(ren);
-        quit = getInput(quit);
-        doPlayer();
     }
     clear(timer_id, m);
 }

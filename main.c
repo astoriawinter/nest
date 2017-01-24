@@ -7,8 +7,5 @@ int main(int argc, char *argv[]) {
     init();
     initPlayer(player);
     gameLoop("files/map/map.tmx", player, m);
-        while (1) {
-            doPlayer();
-        }
     return 0;
 }
