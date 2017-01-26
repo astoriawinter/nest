@@ -8,8 +8,10 @@ int main(int argc, char *argv[]) {
     hud->Message_rect = NULL;
     hud->surfaceMessage = NULL;
     hud->Message = NULL;
+    m->water = NULL;
     init();
-    initPlayer(player);
-    gameLoop("files/map/map.tmx", player, m);
+    loadPlayer(player);
+    while(restartGame());
+    quit();
     return 0;
 }

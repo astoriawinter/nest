@@ -14,21 +14,31 @@ void checkToMap(Entity *player, Map* m)
     x1 = (player->x + player->dirX + player->w/2) / TILE_SIZE;
     y2 = (player->y + player->dirY + player->h/2) / TILE_SIZE;
     gid = gid_clear_flags(m->map_lad->content.gids[(y2 * m->map_m->width) + x1]);
-    if (m->map_m->tiles[gid] != NULL) {
-        player->onLadder = 1;
-    }
-    else
-    {
-        player->onLadder = 0;
+    if (player->y < 610) {
+        if (m->map_m->tiles[gid] != NULL) {
+            player->onLadder = 1;
+        } else {
+            player->onLadder = 0;
+        }
     }
     /* coins */
     y2 = player->y / TILE_SIZE + 2;
     gid = gid_clear_flags(m->map_obj->content.gids[(y2 * m->map_m->width) + x1]);
-    if (m->map_m->tiles[gid] != NULL)
-    {
-        m->map_obj->content.gids[(y2 * m->map_m->width) + x1] = 0;
-        player->collectedCoins++;
-        redraw_tile(m->map_m, x1, y2);
+    if (player->y < 600) {
+        if (m->map_m->tiles[gid] != NULL) {
+            m->map_obj->content.gids[(y2 * m->map_m->width) + x1] = 0;
+            player->collectedCoins++;
+            redraw_tile(m->map_m, x1, y2);
+        }
+    }
+
+    /* doors */
+    gid = gid_clear_flags(m->map_door->content.gids[(y2 * m->map_m->width) + x1]);
+    if (player->y < 600) {
+        if (m->map_m->tiles[gid] != NULL) {
+            if (player->collectedCoins > 15)
+                player->accomplished = 1;
+        }
     }
 
     /* map collision */

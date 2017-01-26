@@ -204,8 +204,11 @@ void init()
 void clear(SDL_TimerID timer_id, Map* m)
 {
     tmx_map_free(m->map_m);
+    free(m->map_rect);
     SDL_RemoveTimer(timer_id);
     SDL_DestroyTexture(m->map_bmp);
+}
+void quit(){
     SDL_DestroyRenderer(ren);
     SDL_DestroyWindow(win);
     SDL_Quit();
@@ -225,6 +228,8 @@ void map_load(char * string, Map* m)
             m->map_lad = layers;
         if (!(strcmp(layers->name, "objects")))
             m->map_obj = layers;
+        if (!(strcmp(layers->name, "door")))
+            m->map_door = layers;
         layers = layers->next;
     }
 }
@@ -290,6 +295,22 @@ void drawImage(Entity* player) {
     SDL_Rect Rect_ledges = { player->x, player->y, w, dest.h};
     SDL_RenderCopy(ren, sprite, &srcRect_ledges, &Rect_ledges);
 }
+void loadWater(){
+    if (m->water == NULL)
+    m->water = loadImage("files/images/water.png");
+    int w, h, j;
+    Uint32 ticks = SDL_GetTicks();
+    Uint32 sprite_n = (int) (SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 50)) > 0 ? SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 50) : 0;
+    SDL_QueryTexture(m->water, NULL, NULL, &w, &h);
+    SDL_Rect srcRect_ledges = {0 , 0, w, h};
+    SDL_Rect Rect_ledges = { 0, sprite_n, w, h};
+    SDL_RenderCopy(ren, m->water, &srcRect_ledges, &Rect_ledges);
+
+    for (j=0; j<m->map_m->width; j++) {
+        m->map_col->content.gids[( ((sprite_n / TILE_SIZE) + 1) *m->map_m->width)+j] = 0;
+        m->map_lad->content.gids[( ((sprite_n / TILE_SIZE) + 1) *m->map_m->width)+j] = 0;
+    }
+}
 void cameraRoll()
 {
     int x_delta;
@@ -305,28 +326,39 @@ void cameraRoll()
         if (m->map_rect->x  > 0) m->map_rect->x  = 0;
     }
 }
-void gameLoop(char* string, Entity* player, Map* m){
+
+int restartGame(){
+    initPlayer(player);
+    m->l_start_ticks = SDL_GetTicks();
+    return gameLoop("files/map/map.tmx", player, m);
+}
+
+int gameLoop(char* string, Entity* player, Map* m){
     SDL_Event event;
     SDL_TimerID timer_id;
-    Sans = TTF_OpenFont("files/ttf/open-sans.regular.ttf", 30);
+    if (!Sans)
+        Sans = TTF_OpenFont("files/ttf/open-sans.regular.ttf", 30);
     map(string);
     m->map_rect = malloc(sizeof(SDL_Rect));
     m->map_rect->w = m->map_m->width  * m->map_m->tile_width;
     m->map_rect->h = m->map_m->height * m->map_m->tile_height;
     m->map_rect->x = 0;  m->map_rect->y = 0;
     map_render(m);
-    int quit = 0;
-    while (!quit)
+    while (doPlayer() == 0 && player->accomplished == 0)
     {
-        quit = getInput(quit);
-        doPlayer();
-        //cameraRoll();
+        if(getInput() == 1){
+            clear(timer_id, m);
+            return 0;
+        }
         render(player, m);
+        loadWater();
         drawText(hud);
         SDL_RenderPresent(ren);
     }
     clear(timer_id, m);
+    return player->accomplished ? 0 : 1;
 }
+
 int map(char* string) {
     map_load(string, m);
     return 0;

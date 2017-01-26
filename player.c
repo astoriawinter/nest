@@ -5,23 +5,26 @@
 #include "player.h"
 #include "collisions.h"
 extern SDL_Texture *loadImage(char *name);
-void initPlayer(Entity* player)
-{
+void loadPlayer(Entity* player){
     player->sprite_r = loadImage("files/images/wizard_right.png");
     player->sprite_l = loadImage("files/images/wizard_left.png");
     player->sprite_f = loadImage("files/images/wizard_face.png");
+    SDL_QueryTexture(player->sprite_l, NULL, NULL, &player->w, &player->h);
+    SDL_QueryTexture(player->sprite_r, NULL, NULL, &player->w, &player->h);
+    SDL_QueryTexture(player->sprite_f, NULL, NULL, &player->w, &player->h);
+    player->w/=8;
+}
+void initPlayer(Entity* player)
+{
+    player->accomplished = 0;
     player->x = (300);
     player->y = (300);
     player->dirX = player->dirY = 0;
     player->thinkTime = 0;
     player->collectedCoins = 0;
-    SDL_QueryTexture(player->sprite_l, NULL, NULL, &player->w, &player->h);
-    SDL_QueryTexture(player->sprite_r, NULL, NULL, &player->w, &player->h);
-    SDL_QueryTexture(player->sprite_f, NULL, NULL, &player->w, &player->h);
-	player->w/=8;
 }
 
-void doPlayer()
+int doPlayer()
 {
     if (player->thinkTime == 0)
     {
@@ -71,6 +74,7 @@ void doPlayer()
             input.jump = 0;
         }
         checkToMap(player, m);
+
     }
 
     if (player->thinkTime > 0)
@@ -79,7 +83,9 @@ void doPlayer()
 
         if (player->thinkTime == 0)
         {
-            initPlayer(player);
+            return 1;
         }
     }
+
+    return 0;
 }

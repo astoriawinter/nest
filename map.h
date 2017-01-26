@@ -35,8 +35,9 @@ void draw_image_layer(tmx_image *img) ;
 SDL_Texture* render_map(Map *map);
 int map(char* string);
 void init();
-void gameLoop(char* string, Entity* player, Map* m);
+int gameLoop(char* string, Entity* player, Map* m);
 void render(Entity* player, Map* m);
 void drawMap(Map* m);
 void drawImage(Entity* player);
-
+int restartGame();
+void quit();

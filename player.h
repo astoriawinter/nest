@@ -5,5 +5,7 @@
 #define NEST_PLAYER_H
 #include "structs.h"
 #endif
+void loadPlayer(Entity* player);
 void initPlayer(Entity* player);
-void doPlayer();
+int doPlayer();
+

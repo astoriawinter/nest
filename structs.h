@@ -14,7 +14,7 @@ typedef struct Sprites
 typedef struct Entity
 {
     float x, y, dirX, dirY;
-    int w, h, onGround, thinkTime, onLadder, collectedCoins;
+    int w, h, onGround, thinkTime, onLadder, collectedCoins, accomplished;
     SDL_Texture *sprite_l;
     SDL_Texture *sprite_r;
     SDL_Texture *sprite_f;
@@ -33,12 +33,15 @@ typedef struct Control
 } Control;
 typedef struct Map
 {
+    SDL_Texture * water;
     SDL_Texture *map_bmp;
     tmx_map *map_m;
     SDL_Rect *map_rect;
     tmx_layer *map_col;
     tmx_layer *map_lad;
     tmx_layer *map_obj;
+    tmx_layer *map_door;
+    Uint32 l_start_ticks;
 }Map;
 enum
 {
