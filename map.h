@@ -13,7 +13,7 @@
 #include <SDL_image.h>
 #include "player.h"
 #define fatal_error2(str) { fputs(str, stderr);  return NULL; }
-#define DISPLAY_H 680
+#define DISPLAY_H 660
 #define DISPLAY_W 1280
 #include "structs.h"
 #include <stdio.h>

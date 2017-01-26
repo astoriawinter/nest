@@ -27,7 +27,6 @@ void checkToMap(Entity *player, Map* m)
     if (m->map_m->tiles[gid] != NULL)
     {
         m->map_obj->content.gids[(y2 * m->map_m->width) + x1] = 0;
-
         player->collectedCoins++;
         redraw_tile(m->map_m, x1, y2);
     }

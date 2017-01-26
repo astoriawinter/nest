@@ -2,12 +2,13 @@
 #include <stdio.h>
 #include "map.h"
 #include "input.h"
-
+#include "SDL_ttf.h"
 #define fatal_error2(str) { fputs(str, stderr);  return NULL; }
 
 static SDL_Renderer *ren = NULL;
 static SDL_Window *win = NULL;
-SDL_Texture *loadImage(char *name)
+TTF_Font* Sans = NULL;
+        SDL_Texture *loadImage(char *name)
 {
     IMG_Init(IMG_INIT_JPG);
     IMG_Init(IMG_INIT_PNG);
@@ -139,7 +140,6 @@ void draw_layer(tmx_map *map, tmx_layer *layer) {
 
 void draw_image_layer(tmx_image *img) {
     SDL_Rect dim;
-
     dim.x = dim.y = 0;
     SDL_QueryTexture((SDL_Texture*)img->resource_image, NULL, NULL, &(dim.w), &(dim.h));
     SDL_RenderCopy(ren, (SDL_Texture*)img->resource_image, NULL, &dim);
@@ -191,8 +191,8 @@ Uint32 timer_func(Uint32 interval, void *param) {
 void init()
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO);
-
-    win = SDL_CreateWindow("Game Window",
+    TTF_Init();
+    win = SDL_CreateWindow("Nest",
                               SDL_WINDOWPOS_UNDEFINED,
                               SDL_WINDOWPOS_UNDEFINED,
                               DISPLAY_W,
@@ -235,6 +235,28 @@ void map_render(Map* m)
 void drawMap(Map* m){
     SDL_RenderCopy(ren, m->map_bmp, NULL, m->map_rect);
 }
+
+void drawText(Hud* hud){
+    char buf[8] = {0};
+    SDL_Color White = {255, 215, 0};
+    if (hud->Message != NULL) {
+        SDL_DestroyTexture(hud->Message);
+        hud->Message = NULL;
+    }
+        sprintf(buf, "COINS %d", player->collectedCoins);
+        hud->surfaceMessage = TTF_RenderText_Solid(Sans, buf, White);
+        hud->Message = SDL_CreateTextureFromSurface(ren, hud->surfaceMessage);
+        if (!hud->Message_rect) {
+            hud->Message_rect = malloc(sizeof(SDL_Rect));
+            hud->Message_rect->x = 1100;
+            hud->Message_rect->y = 0;
+            hud->Message_rect->w = 120;
+            hud->Message_rect->h = 50;
+        }
+    SDL_RenderCopy(ren, hud->Message, NULL, hud->Message_rect);
+    SDL_FreeSurface(hud->surfaceMessage);
+    hud->surfaceMessage = NULL;
+}
 void render(Entity* player, Map* m)
 {
     SDL_RenderClear(ren);
@@ -268,25 +290,39 @@ void drawImage(Entity* player) {
     SDL_Rect Rect_ledges = { player->x, player->y, w, dest.h};
     SDL_RenderCopy(ren, sprite, &srcRect_ledges, &Rect_ledges);
 }
+void cameraRoll()
+{
+    int x_delta;
+    x_delta = DISPLAY_W - m->map_rect->w;
+    if (player->dirX > 0)
+        m->map_rect->x += 4;
+    else if (player->dirX < 0)
+        m->map_rect->x += -4;
+    if (x_delta > 0) {
+        m->map_rect->x = x_delta/2;
+    } else {
+        if (m->map_rect->x  < x_delta) m->map_rect->x  = x_delta;
+        if (m->map_rect->x  > 0) m->map_rect->x  = 0;
+    }
+}
 void gameLoop(char* string, Entity* player, Map* m){
     SDL_Event event;
-    int x_delta, y_delta;
-    int key_state[2] = {0, 0};
     SDL_TimerID timer_id;
+    Sans = TTF_OpenFont("files/ttf/open-sans.regular.ttf", 30);
     map(string);
     m->map_rect = malloc(sizeof(SDL_Rect));
     m->map_rect->w = m->map_m->width  * m->map_m->tile_width;
     m->map_rect->h = m->map_m->height * m->map_m->tile_height;
     m->map_rect->x = 0;  m->map_rect->y = 0;
-    x_delta = DISPLAY_W - m->map_rect->w;
-    y_delta = DISPLAY_H - m->map_rect->h;
     map_render(m);
     int quit = 0;
     while (!quit)
     {
         quit = getInput(quit);
         doPlayer();
+        //cameraRoll();
         render(player, m);
+        drawText(hud);
         SDL_RenderPresent(ren);
     }
     clear(timer_id, m);
