@@ -101,7 +101,7 @@
  </objectgroup>
  <layer name="collisions" width="73" height="21" visible="0" offsetx="181.333" offsety="309.333">
   <data encoding="base64" compression="zlib">
-   eJzt1k0KgCAQhmFd97MKWvRziI7QNkK6aidsdg6iWExC6ffAu4gocshIKQCA/9pYPXVqW2kWpxR2bQMI6VhwD/YWwDes2pYDfFsA0grtMen/eEXVVEO1gvt8gdE2TjqjgRqpiZoF93kbfydiGU/c4bnGPc+LPUsO3HW6x0/XmctcOMworpQZXbAqF5c=
+   eJzt1k0KgCAQhuFc97MKWvRziK4RIV21EzY7h0GxmITS74F3EVHkkFFVAQD818YaqNO4SrOKUtiNCyCkZ8E92FsAkAK+LQBphfaY9n+8phqqpTrFfb7AGhenndFITdRMLYr7vI2/E7GsJ+7wXCPP82LPkgO5Tnn8dJ25zIXDjOJKmdEFL0EWzg==
   </data>
  </layer>
  <layer name="ladders" width="73" height="21" visible="0" offsetx="178.788" offsety="306.061">

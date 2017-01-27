@@ -18,6 +18,7 @@ typedef struct Entity
     SDL_Texture *sprite_l;
     SDL_Texture *sprite_r;
     SDL_Texture *sprite_f;
+    int win;
 } Entity;
 typedef  struct Hud
 {
@@ -33,6 +34,7 @@ typedef struct Control
 } Control;
 typedef struct Map
 {
+    SDL_Texture * gate;
     SDL_Texture * water;
     SDL_Texture *map_bmp;
     tmx_map *map_m;

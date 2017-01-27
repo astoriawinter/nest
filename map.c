@@ -300,7 +300,7 @@ void loadWater(){
     m->water = loadImage("files/images/water.png");
     int w, h, j;
     Uint32 ticks = SDL_GetTicks();
-    Uint32 sprite_n = (int) (SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 50)) > 0 ? SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 50) : 0;
+    Uint32 sprite_n = (int) (SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 250)) > 0 ? SCREEN_HEIGHT - ((ticks - m->l_start_ticks) / 250) : 0;
     SDL_QueryTexture(m->water, NULL, NULL, &w, &h);
     SDL_Rect srcRect_ledges = {0 , 0, w, h};
     SDL_Rect Rect_ledges = { 0, sprite_n, w, h};
@@ -310,6 +310,18 @@ void loadWater(){
         m->map_col->content.gids[( ((sprite_n / TILE_SIZE) + 1) *m->map_m->width)+j] = 0;
         m->map_lad->content.gids[( ((sprite_n / TILE_SIZE) + 1) *m->map_m->width)+j] = 0;
     }
+}
+void drawGate(){
+    if (m->gate == NULL)
+        m->gate = loadImage("files/art/gate.png");
+    int w, h, j;
+    Uint32 ticks = SDL_GetTicks();
+    Uint32 sprite_n = (ticks / 300) % 5;
+    SDL_QueryTexture(m->gate, NULL, NULL, &w, &h);
+    w = w/5;
+    SDL_Rect srcRect_ledges = {sprite_n*(w) , 0, w, h};
+    SDL_Rect Rect_ledges = {1025, 65, w, h};
+    SDL_RenderCopy(ren, m->gate, &srcRect_ledges, &Rect_ledges);
 }
 void cameraRoll()
 {
@@ -330,7 +342,7 @@ void cameraRoll()
 int restartGame(){
     initPlayer(player);
     m->l_start_ticks = SDL_GetTicks();
-    return gameLoop("files/map/map.tmx", player, m);
+    return gameLoop("files/map/map2.tmx", player, m);
 }
 
 int gameLoop(char* string, Entity* player, Map* m){
@@ -352,6 +364,8 @@ int gameLoop(char* string, Entity* player, Map* m){
         }
         render(player, m);
         loadWater();
+        if (player->win == 1)
+            drawGate();
         drawText(hud);
         SDL_RenderPresent(ren);
     }

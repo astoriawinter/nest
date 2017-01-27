@@ -8,6 +8,7 @@ int main(int argc, char *argv[]) {
     hud->Message_rect = NULL;
     hud->surfaceMessage = NULL;
     hud->Message = NULL;
+    m->gate = NULL;
     m->water = NULL;
     init();
     loadPlayer(player);

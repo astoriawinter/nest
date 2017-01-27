@@ -20,7 +20,7 @@
 #include "SDL_image.h"
 #endif //NEST_MAP_H
 
-
+void grawGate();
 SDL_Texture *loadImage(char *name);
 void loadSprite(int index, char *name);
 void set_color(int color);

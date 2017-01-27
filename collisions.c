@@ -28,6 +28,8 @@ void checkToMap(Entity *player, Map* m)
         if (m->map_m->tiles[gid] != NULL) {
             m->map_obj->content.gids[(y2 * m->map_m->width) + x1] = 0;
             player->collectedCoins++;
+            if (player->collectedCoins == 15)
+                player->win = 1;
             redraw_tile(m->map_m, x1, y2);
         }
     }
@@ -36,7 +38,7 @@ void checkToMap(Entity *player, Map* m)
     gid = gid_clear_flags(m->map_door->content.gids[(y2 * m->map_m->width) + x1]);
     if (player->y < 600) {
         if (m->map_m->tiles[gid] != NULL) {
-            if (player->collectedCoins > 15)
+            if (player->collectedCoins == 15)
                 player->accomplished = 1;
         }
     }
