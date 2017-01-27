@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.0" orientation="orthogonal" renderorder="right-down" width="73" height="21" tilewidth="32" tileheight="32" nextobjectid="130">
+ <tileset firstgid="1" name="grass_9" tilewidth="32" tileheight="32" tilecount="320" columns="16">
+  <image source="../art/grass_9.png" width="512" height="640"/>
+ </tileset>
+ <tileset firstgid="321" name="nest" tilewidth="32" tileheight="32" tilecount="4" columns="2">
+  <image source="../art/nest.png" width="92" height="79"/>
+ </tileset>
+ <tileset firstgid="325" name="coldwaterice" tilewidth="32" tileheight="32" tilecount="30" columns="5">
+  <image source="../art/coldwaterice.png" width="160" height="192"/>
+  <tile id="27">
+   <animation>
+    <frame tileid="25" duration="900"/>
+    <frame tileid="26" duration="900"/>
+    <frame tileid="27" duration="900"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="355" name="paper" tilewidth="32" tileheight="32" tilecount="25" columns="5">
+  <image source="../art/paper.png" trans="ffffff" width="180" height="182"/>
+ </tileset>
+ <tileset firstgid="380" name="money" tilewidth="32" tileheight="32" tilecount="9" columns="0">
+  <tile id="0">
+   <image width="32" height="32" source="../art/goldCoin1.png"/>
+   <animation>
+    <frame tileid="0" duration="100"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="2" duration="100"/>
+    <frame tileid="3" duration="100"/>
+    <frame tileid="4" duration="100"/>
+    <frame tileid="5" duration="100"/>
+    <frame tileid="6" duration="100"/>
+    <frame tileid="7" duration="100"/>
+    <frame tileid="8" duration="100"/>
+   </animation>
+  </tile>
+  <tile id="1">
+   <image width="32" height="32" source="../art/goldCoin2.png"/>
+  </tile>
+  <tile id="2">
+   <image width="32" height="32" source="../art/goldCoin3.png"/>
+  </tile>
+  <tile id="3">
+   <image width="32" height="32" source="../art/goldCoin4.png"/>
+  </tile>
+  <tile id="4">
+   <image width="32" height="32" source="../art/goldCoin5.png"/>
+  </tile>
+  <tile id="5">
+   <image width="32" height="32" source="../art/goldCoin6.png"/>
+  </tile>
+  <tile id="6">
+   <image width="32" height="32" source="../art/goldCoin7.png"/>
+  </tile>
+  <tile id="7">
+   <image width="32" height="32" source="../art/goldCoin8.png"/>
+  </tile>
+  <tile id="8">
+   <image width="32" height="32" source="../art/goldCoin9.png"/>
+  </tile>
+ </tileset>
+ <tileset firstgid="389" name="beetle5" tilewidth="50" tileheight="50" tilecount="12" columns="4">
+  <image source="../art/beetle5.PNG" trans="ffffff" width="248" height="199"/>
+ </tileset>
+ <tileset firstgid="401" name="phase-2" tilewidth="32" tileheight="32" tilecount="350" columns="25">
+  <image source="../art/phase-2.png" trans="ffffff" width="800" height="448"/>
+ </tileset>
+ <tileset firstgid="751" name="sky" tilewidth="32" tileheight="32" tilecount="6975" columns="93">
+  <image source="../images/sky.png" trans="ffffff" width="3000" height="2400"/>
+ </tileset>
+ <tileset firstgid="7726" name="sky" tilewidth="32" tileheight="32" tilecount="1280" columns="40">
+  <image source="../images/sky.jpg" trans="ff0e12" width="1280" height="1024"/>
+ </tileset>
+ <tileset firstgid="9006" name="sky" tilewidth="32" tileheight="32" tilecount="6975" columns="93">
+  <image source="../images/sky.png" trans="ff0e12" width="3000" height="2400"/>
+ </tileset>
+ <tileset firstgid="15981" name="sky" tilewidth="32" tileheight="32" tilecount="1280" columns="40">
+  <image source="../images/sky.jpg" trans="ff0e12" width="1280" height="1024"/>
+ </tileset>
+ <tileset firstgid="17261" name="wizard_1" tilewidth="32" tileheight="32" tilecount="210" columns="15">
+  <image source="../images/wizard_1.png" trans="000000" width="480" height="450"/>
+ </tileset>
+ <tileset firstgid="17471" name="wizard_right" tilewidth="32" tileheight="32" tilecount="28" columns="14">
+  <image source="../images/wizard_right.png" trans="000000" width="473" height="90"/>
+ </tileset>
+ <tileset firstgid="17499" name="door_cl" tilewidth="32" tileheight="32" tilecount="9" columns="3">
+  <image source="../art/door_cl.png" trans="ffffff" width="102" height="104"/>
+ </tileset>
+ <layer name="sky" width="73" height="21" offsetx="180" offsety="308">
+  <data encoding="base64" compression="zlib">
+   eJzN12XwldUWB+C/IN2dKtLd3d0ISCMgDdKd0iXdDdKSSipIKd0tKN3dDUrcx3svc0cGxA/3w/nwzJm91n7n/M4+a2bPmzR/UFAykpOClKQiNWlISzrSk4GMZCIzWchKNrKTg5zkIjd5yEs+8lOAghSiMEUoSjGKU4KSlKI0SUgaAPk+oSzlKM+nVKAilahMFapSjep8Rg1qUovPqU0d6lKP+jSgIY1ozBc0oSnNaE4LWtKK1rShLe0oEyD5OtCRTnSmC135km50pwc96UVv+tCXfvRnAF8xkEEMZghDGcZwRjCSUYxmDGMZx3gmMJFJTGYK7QMk39dMYzozmMksZjOHb5jLPOazgIUs4lu+YzFLWMoylrOC7/mBlaziR1azhrWsYz0/8TMb2MgmNjM1QPJtZRvb2cFOdrGbPexlH/s5wEEO8QuHOcKv/MZRjnGcE5zkFKc5w1nOcZ4LXOQSl7nCVa5xnRtsCZB8t7jNHe5yj/s84CGPeMwTnvI7f/CM57zgJUEFgoLeIxjBeZ8QhCQUoQlDWMIRnghEJBKRiUJUohGdmwGSLyaxiE0c4hKP+HzAh3xEAj4mIYlITBKSkozkpCAlqUhNGtKSjvRkICOZyEwWspKN7OQgJ7nITYwAyZeXfOSnAAUpRGGKUJRiFKcEJSlFacrwCWUpR3k+pQIVqURlqlCValTnM2pQk1p8Tm3qUJd61CdPgORrSCMa8wVNaEozmtOClrSiNW1oSzva04GOdKIzXejKl3SjOz3oSS9604e+9KM/A/iKgQxiMENoECD5hjGcEYxkFKMZw1jGMZ4JTGQSk5nCVL5mGtOZwUxmMZs5fMNc5jGfBSxkEd/yHYtZwlKWsZwVDA2QfD+wklX8yGrWsJZ1rOcnfmYDG9nEZrawlW1sZwc72cVu9rCXfeznAAc5xC8c5gi/8htHOcZxTvB9gOQ7xWnOcJZznOcCF7nEZa5wlWtc5wY3ucVt7nCXe9znAQ95xGOe8JTf+YNnPOcFLwkq6N4hGMF5n5MBki+kLKEITRjCEo7wRCAikYhMFKISjejEICaxiE0c4hKP+HzAh3xEAj4mIYlITBKSkozkpCAlqUhNiIKBkS8t6UhPBjKSicxkISvZyE4OcpKL3OQhL/nITwEKUojCFKEoxShOCUpSitKU4RPKUo7yfEoFKpImQPJVpgpVqUZ1PqMGNanF59SmDnWpR30a0JBGNOYLmtCUZjSnBS1pRWva0JZ2tKcDHelEZ7rQlS+pFCD5utODnvSiN33oSz/6M4CvGMggBjOEoQxjOCMYyShGM4axjGM8E5jIJCYzhal8zTSmM4OZzGI23QIk3zfMZR7zWcBCFvEt37GYJSxlGctZwff8wEpW8SOrWcNa1rGen/iZDWxkE5vZwla2sZ0d7GQXu5kTIPkyulL2+dzPAQ5yiF84zBF+5TeOcozjnOAkpzjNGc5yjvNc4CKXuMwVrnKN69zgJre4zR3uco/7PGAPe8kQ9J+cmchMlqC/1t7Vf1XL+ob1m/a8Xvtz/ViOJzzld/7gGc95wUuCCrmbCUZw3icEIQlFaMIQlnCEJwIRiURkohCVaEQnBjGJRWziEJd4xOeh731U8N+vo0H/jRBUmCJBf629q/+qVvQN6zed0evP/bnnI4UEfExCEpGYJCQlGclJQUpSkZo0pCUd6clARjKRmSxkJRvZyUFOcpGbPOQlH/kpUOjt//+rGXjVf9sZZHiDv5u3fzJbGf8Par/3P+/qv8vbfvurGXi9X+Af+Lt5e9Nsvb7nX8IQG+g=
+  </data>
+ </layer>
+ <layer name="main" width="73" height="21" offsetx="180" offsety="308">
+  <data encoding="base64" compression="zlib">
+   eJztl1lOAkEQhtu4vLgmrrjjwg28A4oHwCXGq7gmPqhxfXeNr67vrhfQA/mRdMe2maaZAewB/JMvPVQV9NTw1wwI8a9/+VcjNBmxXujzcC5xVTf0GLFmaPFwLnFSEiZgEqa0NSXz9eSjVmiDdugoUGf6JoyP1PVOuQpjqmJ7NX0T1kfVPJvF9lrIR/pclrpPHFUJHwXNVr37qJz7xFFRv99aux+twTpswCZswbbMuXpNSAaNeCk+UrM4HeL9ldYBHMIRHMMJnMqcq9dd2BP5z+1qnp0gncE5XMAlXMG1zEXtNe6zE1a3cAf38ACP8CRztl7VfCUsn1lrPnqGF3iFN3iHD5kze92Ra+6esS/yZ6wTukR0HxX7u/6vpTzxCV/it0ds64yGrjEYF4V91A8DltwQDMMIjEZppkIy/5+qYz2We8bcaDH9Gq02/JCUtaouFZBXn2fmzLy5v8/XaZiFOcjAvLaa8aBavUdX3kXGsodvBZ2TiqUtx3rtShmvkW0P38rCAizCEixrsazlWK/Ve3TlXdj28K1vEfpX2w==
+  </data>
+ </layer>
+ <objectgroup name="Object Layer 1" offsetx="177.333" offsety="306.667">
+  <object id="7" name="EnemySpawn_1" x="1294.67" y="478.667" width="37.3333" height="50.6667"/>
+ </objectgroup>
+ <layer name="collisions" width="73" height="21" visible="0" offsetx="181.333" offsety="309.333">
+  <data encoding="base64" compression="zlib">
+   eJzt1k0KgCAQhmFd97MKWvRziI7QNkK6aidsdg6iWExC6ffAu4gocshIKQCA/9pYPXVqW2kWpxR2bQMI6VhwD/YWwDes2pYDfFsA0grtMen/eEXVVEO1gvt8gdE2TjqjgRqpiZoF93kbfydiGU/c4bnGPc+LPUsO3HW6x0/XmctcOMworpQZXbAqF5c=
+  </data>
+ </layer>
+ <layer name="ladders" width="73" height="21" visible="0" offsetx="178.788" offsety="306.061">
+  <data encoding="base64" compression="zlib">
+   eJzt1LENwCAMBVFvkcwRNiD77xQKmkDxoSDYyj3JHYU5CcwAn64yafcSzuUy9+4lnKNRL9n7bR11/qC9++i52UZnnYhopNFIo5E22qg12yjyH08j7atGkdFIo5FGo3VoBABrPNQ1Cq4=
+  </data>
+ </layer>
+ <layer name="door" width="73" height="21" offsetx="182" offsety="306">
+  <data encoding="base64" compression="zlib">
+   eJzt0MkNgDAUQ8FfXLpgC0n/PeAGOEOkGcl361XB+rZWtWdH+/rJf51pc2Vdo1d32oxsagQAAADAoh66igW8
+  </data>
+ </layer>
+ <layer name="objects" width="73" height="21" offsetx="182" offsety="306">
+  <data encoding="base64" compression="zlib">
+   eJzt04ENACAIA0Hc3NGZwRhSCn8T0I9GAHByj/oCja270RPv8d3EZhM3qWxrqdw7rfXvHpceLnd2Qa96W/5eJRoAAColaosHkA==
+  </data>
+ </layer>
+</map>
